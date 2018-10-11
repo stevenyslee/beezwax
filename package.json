@@ -16,10 +16,13 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0",
+    "body-parser": "^1.18.3",
+    "jquery": "^3.3.1",
     "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
