@@ -7,13 +7,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      firstName: '',
+      wordCount: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleSubmit(event) {
-    console.log(event);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/",
+      // The key needs to match your method's input parameter (case-sensitive).
+      data: JSON.stringify({firstName: this.state.firstName}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: (data) => {
+        this.setState({
+          wordCount: data
+        });
+      }
+    });
+
+  }
+
+  handleChange(event) {
+    // console.log(event.target.value);
+    // let key = event.target.name;
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -28,7 +52,14 @@ class App extends React.Component {
 
   render() {
     return (
-        <Form handleSubmit={this.handleSubmit} />
+      <div>
+        <Form handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
+        {this.state.wordCount.map((element) => {
+          return (
+            <div key={element[0]}><span>{element[0]}: {element[1]}</span></div>
+            );
+        })}
+      </div>
       );
   }
 }
