@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Form from './components/form.jsx';
-import $ from 'jquery';
+import axios from 'axios';
  
 class App extends React.Component {
   constructor(props) {
@@ -15,19 +15,30 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:3000/",
-      // The key needs to match your method's input parameter (case-sensitive).
-      data: JSON.stringify({firstName: this.state.firstName}),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: (data) => {
-        this.setState({
-          wordCount: data
-        });
-      }
-    });
+    // $.ajax({
+    //   type: "POST",
+    //   url: "http://localhost:3000/",
+    //   // The key needs to match your method's input parameter (case-sensitive).
+    //   data: JSON.stringify({firstName: this.state.firstName}),
+    //   contentType: "application/json; charset=utf-8",
+    //   dataType: "json",
+    //   success: (data) => {
+    //     this.setState({
+    //       wordCount: data
+    //     });
+    //   }
+    // });
+    axios.post('/', {
+      firstName: this.state.firstName
+    })
+    .then((response) => {
+      this.setState({
+        wordCount: response.data
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });;
 
   }
 
@@ -42,17 +53,17 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log('Component did mount');
-    let get = $.get( "http://localhost:3000/", (data) => {
-      console.log("Success!");
-      console.log(data);
-    }).fail(() => {
-        console.log("Error!");
-      });
+    // let get = $.get( "http://localhost:3000/", (data) => {
+    //   console.log("Success!");
+    //   console.log(data);
+    // }).fail(() => {
+    //     console.log("Error!");
+    //   });
   }
 
   render() {
     return (
-      <div>
+      <div id="container">
         <Form handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
         {this.state.wordCount.map((element) => {
           return (
